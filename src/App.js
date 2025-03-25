@@ -1,24 +1,36 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import './App.css';
 import { Card, CardContent } from "./components/Card";
 import { Button } from "./components/Button";
 import { ShoppingCart } from "lucide-react";
 import { motion } from "framer-motion";
 import Cart from './Cart'; // Импортируем корзину
-
-const products = [
-  { id: 1, name: "Товар 1", description: "Описание товара 1", image: "https://via.placeholder.com/150" },
-  { id: 2, name: "Товар 2", description: "Описание товара 2", image: "https://via.placeholder.com/150" },
-  { id: 3, name: "Товар 3", description: "Описание товара 3", image: "https://via.placeholder.com/150" },
-  { id: 4, name: "Товар 4", description: "Описание товара 4", image: "https://via.placeholder.com/150" },
-  { id: 5, name: "Товар 5", description: "Описание товара 5", image: "https://via.placeholder.com/150" },
-];
+import supabase from './supabaseClient';
 
 export default function App() {
+  const [products, setProducts] = useState([]);
   const [cart, setCart] = useState([]);
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const [isCartPage, setIsCartPage] = useState(false);
+
+  // Функция для получения товаров из базы данных
+  const getProductsFromDB = async () => {
+    const { data, error } = await supabase
+      .from('products') // Таблица с товарами в Supabase
+      .select('*');
+
+    if (error) {
+      console.error('Ошибка при получении данных:', error);
+      return [];
+    }
+
+    setProducts(data); // Устанавливаем товары в состояние
+  };
+
+  useEffect(() => {
+    getProductsFromDB(); // Загружаем товары при монтировании компонента
+  }, []);
 
   const addToCart = (product) => {
     setCart([...cart, { ...product, quantity }]);
@@ -43,13 +55,20 @@ export default function App() {
           </div>
 
           <div className="products">
-            {products.map((product) => (
-              <div key={product.id} className="product-card" onClick={() => setSelectedProduct(product)}>
-                <img src={product.image} alt={product.name} className="product-image" />
-                <h2 className="product-title">{product.name}</h2>
-                <p className="product-description">{product.description}</p>
-              </div>
-            ))}
+            {products.length > 0 ? (
+              products.map((product) => (
+                <div key={product.id} className="product-card" onClick={() => setSelectedProduct(product)}>
+                  <img src={product.image_url} alt={product.name} className="product-image" />
+                  <h2 className="product-title">{product.name}</h2>
+                  <p className="product-description">{product.description}</p>
+                  <button onClick={() => addToCart(product)} className="add-to-cart-btn">
+                    Добавить в корзину
+                  </button>
+                </div>
+              ))
+            ) : (
+              <p>Загрузка товаров...</p>
+            )}
           </div>
         </div>
       )}
