@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import './App.css';
 import { Card, CardContent } from "./components/Card";
 import { Button } from "./components/Button";
 import { ShoppingCart } from "lucide-react";
