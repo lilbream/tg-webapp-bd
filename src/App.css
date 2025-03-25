@@ -1,77 +1,55 @@
-/* Основной фон страницы */
-body {
-  background-color: #1f2a3d; /* Темно-синий фон */
-  font-family: 'Helvetica', 'Arial', sans-serif;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100vh;
+/* Основной контейнер для каталога */
+.catalog-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* Два товара в ряду */
+  gap: 20px; /* Отступы между панельками */
+  margin-top: 20px;
+  padding: 0 20px;
 }
 
-/* Панели товара */
+/* Панель товара */
 .product-card {
-  background-color: #fff; /* Белый цвет панели */
-  border-radius: 20px; /* Скругленные углы */
-  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1); /* Легкая тень для эффекта */
-  padding: 20px;
-  width: 280px;
-  margin: 10px;
-  transition: all 0.3s ease; /* Плавное изменение при наведении */
+  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  transition: transform 0.3s ease;
 }
 
 .product-card:hover {
-  box-shadow: 0px 6px 20px rgba(0, 0, 0, 0.2); /* Более выраженная тень при наведении */
-  transform: translateY(-5px); /* Подъем карточки при наведении */
+  transform: translateY(-10px); /* Легкое поднятие карточки при наведении */
 }
 
-/* Изображение товара */
 .product-card img {
-  border-radius: 10px;
   width: 100%;
   height: auto;
+  border-bottom: 1px solid #f0f0f0;
 }
 
-/* Заголовок товара */
-.product-card h2 {
+.product-card-content {
+  padding: 15px;
+}
+
+.product-card-content h3 {
   font-size: 18px;
-  font-weight: bold;
-  margin-top: 15px;
-  color: #333; /* Темный цвет текста */
+  margin-bottom: 10px;
 }
 
-/* Кнопки */
-button {
-  background-color: #007aff; /* Голубой цвет, как у Apple */
+.product-card-content p {
+  color: #777;
+}
+
+.button-add-to-cart {
+  width: 100%;
+  padding: 10px;
+  background-color: #007bff;
   color: white;
   border: none;
-  border-radius: 12px;
-  padding: 10px;
-  width: 100%;
+  border-radius: 5px;
   font-size: 16px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
 }
 
-button:hover {
-  background-color: #005bb5; /* Темный голубой цвет при наведении */
-}
-
-/* Заголовок для каталога */
-h1 {
-  font-size: 24px;
-  font-weight: bold;
-  color: #fff;
-  margin-bottom: 20px;
-}
-
-/* Стиль для контейнера товаров */
-.products-container {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 20px;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 20px;
+.button-add-to-cart:hover {
+  background-color: #0056b3;
 }
